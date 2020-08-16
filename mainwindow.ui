@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>789</width>
+    <width>733</width>
     <height>495</height>
    </rect>
   </property>
@@ -42,7 +42,7 @@
      <rect>
       <x>40</x>
       <y>110</y>
-      <width>701</width>
+      <width>441</width>
       <height>321</height>
      </rect>
     </property>
@@ -86,20 +86,158 @@
      <string>Is Listening</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_moveForward">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>110</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>move Forward</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_moveBackward">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>150</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>move Backward</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_moveLeft">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>190</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>move Left</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_moveRight">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>230</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>move Right</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_Stop">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>350</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="horizontalSlider_speed">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>10</y>
+      <width>160</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>5</number>
+    </property>
+    <property name="pageStep">
+     <number>1</number>
+    </property>
+    <property name="sliderPosition">
+     <number>0</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksBothSides</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_changeSpeed">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>50</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>change Speed</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_turnLeft">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>270</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>turn Left</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_turnRight">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>310</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>turn Right</string>
+    </property>
+   </widget>
    <zorder>pushButton_connect</zorder>
    <zorder>lineEdit_send</zorder>
    <zorder>pushButton_send</zorder>
    <zorder>textBrowser_log</zorder>
    <zorder>pushButton_disconnect</zorder>
    <zorder>pushButton_islistening</zorder>
+   <zorder>pushButton_moveForward</zorder>
+   <zorder>pushButton_moveBackward</zorder>
+   <zorder>pushButton_moveLeft</zorder>
+   <zorder>pushButton_moveRight</zorder>
+   <zorder>pushButton_Stop</zorder>
+   <zorder>horizontalSlider_speed</zorder>
+   <zorder>pushButton_changeSpeed</zorder>
+   <zorder>pushButton_turnLeft</zorder>
+   <zorder>pushButton_turnRight</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>789</width>
-     <height>26</height>
+     <width>733</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>

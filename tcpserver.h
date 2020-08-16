@@ -7,6 +7,28 @@
 #include "tcpsocket.h"
 #include "ui_mainwindow.h"
 
+enum eCarSpeed
+{
+    eNoSpeed    = 0,
+    eSlow       = 1,
+    eNormal     = 2,
+    eFast       = 3,
+    eTurbo      = 4,
+    eUltraSound = 5
+};
+
+enum eCommands
+{
+    eMoveForward    = 100,
+    eMoveBackward   = 101,
+    eMoveLeft       = 102,
+    eMoveRight      = 103,
+    eTurnLeft       = 104,
+    eTurnRight      = 105,
+    eStop           = 106,
+    eChangeSpeed    = 1050
+};
+
 class TcpServer : public QObject
 {
     Q_OBJECT
@@ -15,8 +37,17 @@ public:
 
     void doConnect();
     void doDisconnect();
-    void isListening();
-    void doSend(QString data);;
+    bool isListening();
+    void doSend(QString data);
+
+    void sendMoveForward();
+    void sendMoveBackward();
+    void sendMoveLeft();
+    void sendMoveRight();
+    void sendTurnLeft();
+    void sendTurnRight();
+    void sendStop();
+    void sendChangeSpeed(uint speed);
 
 signals:
 

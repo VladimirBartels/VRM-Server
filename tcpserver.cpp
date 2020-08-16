@@ -44,23 +44,64 @@ void TcpServer::doDisconnect()
     _ui->textBrowser_log->append("Server is not listening anymore");
 }
 
-void TcpServer::isListening()
+bool TcpServer::isListening()
 {
     // check if server is listening
-    if (_tcpServer->isListening() == true)
-    {
-        _ui->textBrowser_log->append("Server is listening");
-    }
-    else
-    {
-        _ui->textBrowser_log->append("Server is NOT listening");
-    }
+    return _tcpServer->isListening();
 }
 
 void TcpServer::doSend(QString data)
 {
     _ui->textBrowser_log->append("Server sent " + data);
     _socket->doSend(data.toUtf8());
+}
+
+void TcpServer::sendMoveForward()
+{
+    _ui->textBrowser_log->append("Server sent 'move forward' command " + QString::number(eMoveForward));
+    _socket->doSend(QString::number(eMoveForward));
+}
+
+void TcpServer::sendMoveBackward()
+{
+    _ui->textBrowser_log->append("Server sent 'move backward' command " + QString::number(eMoveBackward));
+    _socket->doSend(QString::number(eMoveBackward));
+}
+
+void TcpServer::sendMoveLeft()
+{
+    _ui->textBrowser_log->append("Server sent 'move left' command " + QString::number(eMoveLeft));
+    _socket->doSend(QString::number(eMoveLeft));
+}
+
+void TcpServer::sendMoveRight()
+{   
+    _ui->textBrowser_log->append("Server sent 'move right' command " + QString::number(eMoveRight));
+    _socket->doSend(QString::number(eMoveRight));
+}
+
+void TcpServer::sendTurnLeft()
+{
+    _ui->textBrowser_log->append("Server sent 'turn left' command " + QString::number(eTurnLeft));
+    _socket->doSend(QString::number(eTurnLeft));
+}
+
+void TcpServer::sendTurnRight()
+{
+    _ui->textBrowser_log->append("Server sent 'turn left' command " + QString::number(eTurnRight));
+    _socket->doSend(QString::number(eTurnRight));
+}
+
+void TcpServer::sendStop()
+{
+    _ui->textBrowser_log->append("Server sent 'stop' command " + QString::number(eStop));
+    _socket->doSend(QString::number(eStop));
+}
+
+void TcpServer::sendChangeSpeed(uint speed)
+{
+    _ui->textBrowser_log->append("Server sent 'change speed' command " + QString::number(eChangeSpeed + speed));
+    _socket->doSend(QString::number(eChangeSpeed + speed));
 }
 
 void TcpServer::newConnection()

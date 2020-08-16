@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QTcpSocket>
 #include <QAbstractSocket>
-#include <QDebug>
 
 #include "ui_mainwindow.h"
 
@@ -28,6 +27,8 @@ public slots:
     void slotDisconnected();
     void slotBytesWritten(qint64 bytes);
     void slotReadyRead();
+
+private slots:
 
 private:
     Ui::MainWindow *_ui;

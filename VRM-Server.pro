@@ -19,12 +19,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     tcpserver.cpp \
-    tcpsocket.cpp
+    tcpsocket.cpp \
+    vrmserver.cpp
 
 HEADERS += \
     mainwindow.h \
     tcpserver.h \
-    tcpsocket.h
+    tcpsocket.h \
+    vrmserver.h
 
 FORMS += \
     mainwindow.ui

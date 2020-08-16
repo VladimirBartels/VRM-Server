@@ -1,5 +1,6 @@
 #include "tcpsocket.h"
 #include <QHostAddress>
+#include <QDebug>
 
 TcpSocket::TcpSocket(Ui::MainWindow *ui) : _ui(ui)
 {
