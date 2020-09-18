@@ -18,9 +18,9 @@ void TcpServer::doConnect()
 {
     if (!_tcpServer->listen(QHostAddress(SERVERADDRESS), 80))
     {
-        qDebug() << "Server could not start";
+        qDebug() << "Server could not start or is already started";
         qDebug() << _tcpServer->errorString();
-        _ui->textBrowser_log->append("Server could not start");
+        _ui->textBrowser_log->append("Server could not start or is already started");
         _ui->textBrowser_log->append(_tcpServer->errorString());
     }
     else
@@ -56,52 +56,60 @@ void TcpServer::doSend(QString data)
     _socket->doSend(data.toUtf8());
 }
 
-void TcpServer::sendMoveForward()
+void TcpServer::sendMoveForward(uint clientId)
 {
-    _ui->textBrowser_log->append("Server sent 'move forward' command " + QString::number(eMoveForward));
-    _socket->doSend(QString::number(eMoveForward));
+    QString command = createCommand(clientId, eMoveForward);
+    _ui->textBrowser_log->append("Server sent 'move forward' command " + command);
+    _socket->doSend(command);
 }
 
-void TcpServer::sendMoveBackward()
+void TcpServer::sendMoveBackward(uint clientId)
 {
-    _ui->textBrowser_log->append("Server sent 'move backward' command " + QString::number(eMoveBackward));
-    _socket->doSend(QString::number(eMoveBackward));
+    QString command = createCommand(clientId, eMoveBackward);
+    _ui->textBrowser_log->append("Server sent 'move backward' command " + command);
+    _socket->doSend(command);
 }
 
-void TcpServer::sendMoveLeft()
+void TcpServer::sendMoveLeft(uint clientId)
 {
-    _ui->textBrowser_log->append("Server sent 'move left' command " + QString::number(eMoveLeft));
-    _socket->doSend(QString::number(eMoveLeft));
+    QString command = createCommand(clientId, eMoveLeft);
+    _ui->textBrowser_log->append("Server sent 'move left' command " + command);
+    _socket->doSend(command);
 }
 
-void TcpServer::sendMoveRight()
+void TcpServer::sendMoveRight(uint clientId)
 {   
-    _ui->textBrowser_log->append("Server sent 'move right' command " + QString::number(eMoveRight));
-    _socket->doSend(QString::number(eMoveRight));
+    QString command = createCommand(clientId, eMoveRight);
+    _ui->textBrowser_log->append("Server sent 'move right' command " + command);
+    _socket->doSend(command);
 }
 
-void TcpServer::sendTurnLeft()
+void TcpServer::sendTurnLeft(uint clientId)
 {
-    _ui->textBrowser_log->append("Server sent 'turn left' command " + QString::number(eTurnLeft));
-    _socket->doSend(QString::number(eTurnLeft));
+    QString command = createCommand(clientId, eTurnLeft);
+    _ui->textBrowser_log->append("Server sent 'turn left' command " + command);
+    _socket->doSend(command);
 }
 
-void TcpServer::sendTurnRight()
+void TcpServer::sendTurnRight(uint clientId)
 {
-    _ui->textBrowser_log->append("Server sent 'turn left' command " + QString::number(eTurnRight));
-    _socket->doSend(QString::number(eTurnRight));
+    QString command = createCommand(clientId, eTurnRight);
+    _ui->textBrowser_log->append("Server sent 'turn left' command " + command);
+    _socket->doSend(command);
 }
 
-void TcpServer::sendStop()
+void TcpServer::sendStop(uint clientId)
 {
-    _ui->textBrowser_log->append("Server sent 'stop' command " + QString::number(eStop));
-    _socket->doSend(QString::number(eStop));
+    QString command = createCommand(clientId, eStop);
+    _ui->textBrowser_log->append("Server sent 'stop' command " + command);
+    _socket->doSend(command);
 }
 
-void TcpServer::sendChangeSpeed(uint speed)
+void TcpServer::sendChangeSpeed(uint clientId, uint speed)
 {
-    _ui->textBrowser_log->append("Server sent 'change speed' command " + QString::number(eChangeSpeed + speed));
-    _socket->doSend(QString::number(eChangeSpeed + speed));
+    QString command = createCommand(clientId, eChangeSpeed + speed);
+    _ui->textBrowser_log->append("Server sent 'change speed' command " + command);
+    _socket->doSend(command);
 }
 
 void TcpServer::newConnection()
@@ -116,4 +124,33 @@ void TcpServer::newConnection()
 
     _ui->textBrowser_log->append("Sending Hello from Server to Client");
     _socket->doSend("Hello from Server to Client");
+}
+
+// a command format 8 bytes:
+// example: S1:0101E
+// [0]   S   - start
+// [1]   1   - id of a client
+// [2]   :   - spacer between client id and a command id
+// [3-6] 101 - a command id
+// [7]   E   - end of the command
+QString TcpServer::createCommand(uint clientId, uint commandId)
+{
+    QString command = "";
+
+    if (clientId >= 10)
+    {
+        _ui->textBrowser_log->append("Client id is out of range [0..9]");
+        return "";
+    }
+
+    if (commandId >= 10000)
+    {
+        _ui->textBrowser_log->append("Command id is out of range [0..9999]");
+        return "";
+    }
+
+    // building a command
+    command = "S" + QString::number(clientId) + ":" + QStringLiteral("%1").arg(commandId, 4) + "E";
+
+    return command;
 }

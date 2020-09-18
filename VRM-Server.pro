@@ -16,14 +16,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    border.cpp \
+    car.cpp \
     main.cpp \
     mainwindow.cpp \
+    obstacle.cpp \
+    supervisor.cpp \
     tcpserver.cpp \
     tcpsocket.cpp \
     vrmserver.cpp
 
 HEADERS += \
+    border.h \
+    car.h \
     mainwindow.h \
+    obstacle.h \
+    supervisor.h \
     tcpserver.h \
     tcpsocket.h \
     vrmserver.h

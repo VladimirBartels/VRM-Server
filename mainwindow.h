@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "vrmserver.h"
+#include "supervisor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,6 +18,9 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_radioButton_vrmControl_clicked();
+    void on_radioButton_manualControl_clicked();
+
     void on_pushButton_send_clicked();
     void on_pushButton_connect_clicked();
     void on_pushButton_disconnect_clicked();
@@ -30,11 +34,15 @@ private slots:
     void on_pushButton_turnRight_clicked();
     void on_pushButton_Stop_clicked();
 
-    void on_pushButton_changeSpeed_clicked();
+    void on_horizontalSlider_speed_valueChanged(int value);
+
+    void on_pushButton_startStop_clicked();
+
 
 private:
 
     Ui::MainWindow *ui;
     Vrmserver *_vrmServer;
+    Supervisor *_supervisor;
 };
 #endif // MAINWINDOW_H

@@ -12,9 +12,7 @@ enum eCarSpeed
     eNoSpeed    = 0,
     eSlow       = 1,
     eNormal     = 2,
-    eFast       = 3,
-    eTurbo      = 4,
-    eUltraSound = 5
+    eFast       = 3
 };
 
 enum eCommands
@@ -40,14 +38,14 @@ public:
     bool isListening();
     void doSend(QString data);
 
-    void sendMoveForward();
-    void sendMoveBackward();
-    void sendMoveLeft();
-    void sendMoveRight();
-    void sendTurnLeft();
-    void sendTurnRight();
-    void sendStop();
-    void sendChangeSpeed(uint speed);
+    void sendMoveForward(uint clientId);
+    void sendMoveBackward(uint clientId);
+    void sendMoveLeft(uint clientId);
+    void sendMoveRight(uint clientId);
+    void sendTurnLeft(uint clientId);
+    void sendTurnRight(uint clientId);
+    void sendStop(uint clientId);
+    void sendChangeSpeed(uint clientId, uint speed);
 
 signals:
 
@@ -55,6 +53,8 @@ public slots:
     void newConnection();
 
 private:
+    QString createCommand(uint clientId, uint commandId);
+
     QTcpServer *_tcpServer;
     //QTcpSocket *_socket;
     TcpSocket *_socket;
