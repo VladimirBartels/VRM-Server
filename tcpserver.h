@@ -36,7 +36,7 @@ public:
     void doConnect();
     void doDisconnect();
     bool isListening();
-    void doSend(QString data);
+    void doSend(uint clientId, QString data);
 
     void sendMoveForward(uint clientId);
     void sendMoveBackward(uint clientId);
@@ -56,8 +56,10 @@ private:
     QString createCommand(uint clientId, uint commandId);
 
     QTcpServer *_tcpServer;
-    //QTcpSocket *_socket;
-    TcpSocket *_socket;
+    // _socketMap looks like:
+    // (1, "192.168.0.101")
+    // (2, "192.168.0.102")
+    QMap<int, TcpSocket *> _socketMap;
     Ui::MainWindow *_ui;
 };
 

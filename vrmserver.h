@@ -16,16 +16,16 @@ public:
     void startTcpServer();
     void stopTcpServer();
     void pingServer();
-    void sendDataToClient(QString data);
+    void sendDataToClient(uint clientId, QString data);
 
-    void moveClientForward();
-    void moveClientBackward();
-    void moveClientLeft();
-    void moveClientRight();
-    void turnClientLeft();
-    void turnClientRight();
-    void stopClient();
-    void changeClientSpeed(uint speed);
+    void moveClientForward(uint clientId);
+    void moveClientBackward(uint clientId);
+    void moveClientLeft(uint clientId);
+    void moveClientRight(uint clientId);
+    void turnClientLeft(uint clientId);
+    void turnClientRight(uint clientId);
+    void stopClient(uint clientId);
+    void changeClientSpeed(uint clientId, uint speed);
 
 signals:
 

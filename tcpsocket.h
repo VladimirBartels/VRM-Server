@@ -7,6 +7,9 @@
 
 #include "ui_mainwindow.h"
 
+#define CLIENTADDR_1    "192.168.0.103"
+#define CLIENTADDR_2    "192.168.0.102"
+
 class TcpSocket : public QObject
 {
     Q_OBJECT

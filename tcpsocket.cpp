@@ -55,6 +55,37 @@ void TcpSocket::slotDisconnected()
 {
     qDebug() << "Disconnected...";
     _ui->textBrowser_log->append("Disconnected...\n");
+
+    // TODO: maybe put it in separated function
+    // remove client 1 from combo box
+    if (_tcpSocket->peerAddress().toString() == CLIENTADDR_1)
+    {
+        for (int i = 0; i < _ui->comboBox_clientId->count(); i++)
+        {
+            if (_ui->comboBox_clientId->itemText(i) == "1")
+            {
+                _ui->comboBox_clientId->removeItem(i);
+                break;
+            }
+        }
+
+        // removing from socketMap is done by client reconnecting in tcpserver
+    }
+
+    // remove client 2 from combo box
+    if (_tcpSocket->peerAddress().toString() == CLIENTADDR_2)
+    {
+        for (int i = 0; i < _ui->comboBox_clientId->count(); i++)
+        {
+            if (_ui->comboBox_clientId->itemText(i) == "2")
+            {
+                _ui->comboBox_clientId->removeItem(i);
+                break;
+            }
+        }
+
+        // removing from socketMap is done by client reconnecting in tcpserver
+    }
 }
 
 void TcpSocket::slotBytesWritten(qint64 bytes)

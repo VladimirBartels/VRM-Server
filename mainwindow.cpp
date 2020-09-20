@@ -54,7 +54,14 @@ void MainWindow::on_radioButton_manualControl_clicked()
 
 void MainWindow::on_pushButton_send_clicked()
 {
-    _vrmServer->sendDataToClient(ui->lineEdit_send->text());
+    if (ui->comboBox_clientId->count() > 0)
+    {
+        _vrmServer->sendDataToClient(ui->comboBox_clientId->currentText().toInt(), ui->lineEdit_send->text());
+    }
+    else
+    {
+        ui->textBrowser_log->append("Client is not selected");
+    }
 }
 
 void MainWindow::on_pushButton_connect_clicked()
@@ -74,37 +81,86 @@ void MainWindow::on_pushButton_islistening_clicked()
 
 void MainWindow::on_pushButton_moveForward_clicked()
 {
-    _vrmServer->moveClientForward();
+    if (ui->comboBox_clientId->count() > 0)
+    {
+        _vrmServer->moveClientForward(ui->comboBox_clientId->currentText().toInt());
+    }
+    else
+    {
+        ui->textBrowser_log->append("Client is not selected");
+    }
 }
 
 void MainWindow::on_pushButton_moveBackward_clicked()
 {
-    _vrmServer->moveClientBackward();
+    if (ui->comboBox_clientId->count() > 0)
+    {
+        _vrmServer->moveClientBackward(ui->comboBox_clientId->currentText().toInt());
+    }
+    else
+    {
+        ui->textBrowser_log->append("Client is not selected");
+    }
 }
 
 void MainWindow::on_pushButton_moveLeft_clicked()
 {
-    _vrmServer->moveClientLeft();
+    if (ui->comboBox_clientId->count() > 0)
+    {
+        _vrmServer->moveClientLeft(ui->comboBox_clientId->currentText().toInt());
+    }
+    else
+    {
+        ui->textBrowser_log->append("Client is not selected");
+    }
 }
 
 void MainWindow::on_pushButton_moveRight_clicked()
 {
-    _vrmServer->moveClientRight();
+    if (ui->comboBox_clientId->count() > 0)
+    {
+        _vrmServer->moveClientRight(ui->comboBox_clientId->currentText().toInt());
+    }
+    else
+    {
+        ui->textBrowser_log->append("Client is not selected");
+    }
 }
 
 void MainWindow::on_pushButton_turnLeft_clicked()
 {
-    _vrmServer->turnClientLeft();
+    if (ui->comboBox_clientId->count() > 0)
+    {
+        _vrmServer->turnClientLeft(ui->comboBox_clientId->currentText().toInt());
+    }
+    else
+    {
+        ui->textBrowser_log->append("Client is not selected");
+    }
 }
 
 void MainWindow::on_pushButton_turnRight_clicked()
 {
-    _vrmServer->turnClientRight();
+    if (ui->comboBox_clientId->count() > 0)
+    {
+        _vrmServer->turnClientRight(ui->comboBox_clientId->currentText().toInt());
+    }
+    else
+    {
+        ui->textBrowser_log->append("Client is not selected");
+    }
 }
 
 void MainWindow::on_pushButton_Stop_clicked()
 {
-    _vrmServer->stopClient();
+    if (ui->comboBox_clientId->count() > 0)
+    {
+        _vrmServer->stopClient(ui->comboBox_clientId->currentText().toInt());
+    }
+    else
+    {
+        ui->textBrowser_log->append("Client is not selected");
+    }
 }
 
 void MainWindow::on_horizontalSlider_speed_valueChanged(int value)
@@ -112,7 +168,14 @@ void MainWindow::on_horizontalSlider_speed_valueChanged(int value)
     // manual control is activated
     if (ui->radioButton_manualControl->isChecked())
     {
-        _vrmServer->changeClientSpeed(value);
+        if (ui->comboBox_clientId->count() > 0)
+        {
+            _vrmServer->changeClientSpeed(ui->comboBox_clientId->currentText().toInt(), value);
+        }
+        else
+        {
+            ui->textBrowser_log->append("Client is not selected");
+        }
     }
 
     // vrm control is activated

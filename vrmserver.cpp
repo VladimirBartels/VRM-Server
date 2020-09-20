@@ -1,7 +1,5 @@
 #include "vrmserver.h"
 
-#define CAR_ID 1
-
 //Vrmserver::Vrmserver(QObject *parent) : QObject(parent)
 //{
 
@@ -34,47 +32,47 @@ void Vrmserver::pingServer()
     }
 }
 
-void Vrmserver::sendDataToClient(QString data)
+void Vrmserver::sendDataToClient(uint clientId, QString data)
 {
-    _server->doSend(data);
+    _server->doSend(clientId, data);
 }
 
-void Vrmserver::moveClientForward()
+void Vrmserver::moveClientForward(uint clientId)
 {
-    _server->sendMoveForward(CAR_ID);
+    _server->sendMoveForward(clientId);
 }
 
-void Vrmserver::moveClientBackward()
+void Vrmserver::moveClientBackward(uint clientId)
 {
-    _server->sendMoveBackward(CAR_ID);
+    _server->sendMoveBackward(clientId);
 }
 
-void Vrmserver::moveClientLeft()
+void Vrmserver::moveClientLeft(uint clientId)
 {
-    _server->sendMoveLeft(CAR_ID);
+    _server->sendMoveLeft(clientId);
 }
 
-void Vrmserver::moveClientRight()
+void Vrmserver::moveClientRight(uint clientId)
 {
-    _server->sendMoveRight(CAR_ID);
+    _server->sendMoveRight(clientId);
 }
 
-void Vrmserver::turnClientLeft()
+void Vrmserver::turnClientLeft(uint clientId)
 {
-    _server->sendTurnLeft(CAR_ID);
+    _server->sendTurnLeft(clientId);
 }
 
-void Vrmserver::turnClientRight()
+void Vrmserver::turnClientRight(uint clientId)
 {
-    _server->sendTurnRight(CAR_ID);
+    _server->sendTurnRight(clientId);
 }
 
-void Vrmserver::stopClient()
+void Vrmserver::stopClient(uint clientId)
 {
-    _server->sendStop(CAR_ID);
+    _server->sendStop(clientId);
 }
 
-void Vrmserver::changeClientSpeed(uint speed)
+void Vrmserver::changeClientSpeed(uint clientId, uint speed)
 {
-    _server->sendChangeSpeed(CAR_ID, speed);
+    _server->sendChangeSpeed(clientId, speed);
 }

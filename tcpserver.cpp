@@ -2,13 +2,10 @@
 #include <QNetworkProxy>
 
 #define SERVERADDRESS   "192.168.0.100"
-#define CLIENTADDRESS_1 "192.168.0.101"
-#define CLIENTADDRESS_2 "192.168.0.102"
 
 TcpServer::TcpServer(Ui::MainWindow *ui) : _ui(ui)
 {
     _tcpServer = new QTcpServer(this);
-    _socket = new TcpSocket(ui);
 
     // whenever a client connects, it will emit signal
     connect(_tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
@@ -50,66 +47,129 @@ bool TcpServer::isListening()
     return _tcpServer->isListening();
 }
 
-void TcpServer::doSend(QString data)
+void TcpServer::doSend(uint clientId, QString data)
 {
     _ui->textBrowser_log->append("Server sent " + data);
-    _socket->doSend(data.toUtf8());
+    if (_socketMap.contains(clientId))
+    {
+        _socketMap[clientId]->doSend(data.toUtf8());
+    }
+    else
+    {
+        _ui->textBrowser_log->append("TcpServer: No such value in socketMap");
+    }
 }
 
 void TcpServer::sendMoveForward(uint clientId)
 {
     QString command = createCommand(clientId, eMoveForward);
     _ui->textBrowser_log->append("Server sent 'move forward' command " + command);
-    _socket->doSend(command);
+    if (_socketMap.contains(clientId))
+    {
+        _socketMap[clientId]->doSend(command);
+    }
+    else
+    {
+        _ui->textBrowser_log->append("TcpServer: No such value in socketMap");
+    }
 }
 
 void TcpServer::sendMoveBackward(uint clientId)
 {
     QString command = createCommand(clientId, eMoveBackward);
     _ui->textBrowser_log->append("Server sent 'move backward' command " + command);
-    _socket->doSend(command);
+    if (_socketMap.contains(clientId))
+    {
+        _socketMap[clientId]->doSend(command);
+    }
+    else
+    {
+        _ui->textBrowser_log->append("TcpServer: No such value in socketMap");
+    }
 }
 
 void TcpServer::sendMoveLeft(uint clientId)
 {
     QString command = createCommand(clientId, eMoveLeft);
     _ui->textBrowser_log->append("Server sent 'move left' command " + command);
-    _socket->doSend(command);
+    if (_socketMap.contains(clientId))
+    {
+        _socketMap[clientId]->doSend(command);
+    }
+    else
+    {
+        _ui->textBrowser_log->append("TcpServer: No such value in socketMap");
+    }
 }
 
 void TcpServer::sendMoveRight(uint clientId)
 {   
     QString command = createCommand(clientId, eMoveRight);
     _ui->textBrowser_log->append("Server sent 'move right' command " + command);
-    _socket->doSend(command);
+    if (_socketMap.contains(clientId))
+    {
+        _socketMap[clientId]->doSend(command);
+    }
+    else
+    {
+        _ui->textBrowser_log->append("TcpServer: No such value in socketMap");
+    }
 }
 
 void TcpServer::sendTurnLeft(uint clientId)
 {
     QString command = createCommand(clientId, eTurnLeft);
     _ui->textBrowser_log->append("Server sent 'turn left' command " + command);
-    _socket->doSend(command);
+    if (_socketMap.contains(clientId))
+    {
+        _socketMap[clientId]->doSend(command);
+    }
+    else
+    {
+        _ui->textBrowser_log->append("TcpServer: No such value in socketMap");
+    }
 }
 
 void TcpServer::sendTurnRight(uint clientId)
 {
     QString command = createCommand(clientId, eTurnRight);
     _ui->textBrowser_log->append("Server sent 'turn left' command " + command);
-    _socket->doSend(command);
+    if (_socketMap.contains(clientId))
+    {
+        _socketMap[clientId]->doSend(command);
+    }
+    else
+    {
+        _ui->textBrowser_log->append("TcpServer: No such value in socketMap");
+    }
 }
 
 void TcpServer::sendStop(uint clientId)
 {
     QString command = createCommand(clientId, eStop);
     _ui->textBrowser_log->append("Server sent 'stop' command " + command);
-    _socket->doSend(command);
+    if (_socketMap.contains(clientId))
+    {
+        _socketMap[clientId]->doSend(command);
+    }
+    else
+    {
+        _ui->textBrowser_log->append("TcpServer: No such value in socketMap");
+    }
 }
 
 void TcpServer::sendChangeSpeed(uint clientId, uint speed)
 {
     QString command = createCommand(clientId, eChangeSpeed + speed);
     _ui->textBrowser_log->append("Server sent 'change speed' command " + command);
-    _socket->doSend(command);
+    if (_socketMap.contains(clientId))
+    {
+        _socketMap[clientId]->doSend(command);
+    }
+    else
+    {
+        _ui->textBrowser_log->append("TcpServer: No such value in socketMap");
+    }
 }
 
 void TcpServer::newConnection()
@@ -117,13 +177,46 @@ void TcpServer::newConnection()
     qDebug() << "Client is connected";
     _ui->textBrowser_log->append("Client is connected");
 
-    // nextPendingConnection is a connected client's socket
-    _socket->setSocket(_tcpServer->nextPendingConnection());
+    TcpSocket *socket = new TcpSocket(_ui);
 
-    _ui->textBrowser_log->append("Client Address is: " + _socket->getAddress());
+    // nextPendingConnection is a connected client's socket
+    socket->setSocket(_tcpServer->nextPendingConnection());
+
+    _ui->textBrowser_log->append("Client Address is: " + socket->getAddress());
 
     _ui->textBrowser_log->append("Sending Hello from Server to Client");
-    _socket->doSend("Hello from Server to Client");
+    socket->doSend("Hello from Server to Client");
+
+    // TODO: maybe change map key from int to address string and put in a function
+    // TODO: change address to 101
+    if (socket->getAddress() == CLIENTADDR_1)
+    {
+        // if a client is already in the map and the same client is trying to connect again,
+        // remove old cllient from the map and add a new one
+        if (_socketMap.contains(1))
+        {
+                TcpSocket *oldSocket = _socketMap.take(1);
+                delete oldSocket;
+        }
+
+        // insert a new client to the map and to the combobox
+        _socketMap.insert(1, socket);
+        _ui->comboBox_clientId->addItem(QString::number(1));        
+    }
+
+    if (socket->getAddress() == CLIENTADDR_2)
+    {
+        // if a client is already in the map and the same client is trying to connect again,
+        // remove old cllient from the map and add a new one
+        if (_socketMap.contains(2))
+        {
+                TcpSocket *oldSocket = _socketMap.take(2);
+                delete oldSocket;
+        }
+
+        _socketMap.insert(2, socket);
+        _ui->comboBox_clientId->addItem(QString::number(2));
+    }
 }
 
 // a command format 8 bytes:
