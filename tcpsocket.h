@@ -15,6 +15,7 @@ class TcpSocket : public QObject
     Q_OBJECT
 public:
     TcpSocket(Ui::MainWindow *ui);
+    ~TcpSocket();
 
     void setSocket(QTcpSocket *socket);
     void doDisconnect();

@@ -32,7 +32,22 @@ Supervisor::Supervisor(Ui::MainWindow *ui) : _ui(ui)
     _border = NULL;
     _garage.clear();
 
-//    _ui->radioButton_manual->setChecked(true);
+    //    _ui->radioButton_manual->setChecked(true);
+}
+
+Supervisor::~Supervisor()
+{
+    if (_obstacleTimer)
+    {
+        delete _obstacleTimer;
+        _obstacleTimer = nullptr;
+    }
+
+    if (_border)
+    {
+        delete _border;
+        _border = nullptr;
+    }
 }
 
 void Supervisor::init()
@@ -217,20 +232,23 @@ void Supervisor::createCase4()
 
     // create cars
     Car *car1 = new Car(0, 0, 40, 50, Qt::darkBlue, id_1, eVSlow, _border);
+    //Car *car2 = new Car(0, 0, 40, 50, Qt::darkRed, id_2, eVSlow, _border);
 
     // put cars in garage
     _garage.push_back(car1);
+    //_garage.push_back(car2);
 
     qDebug() << "Border is: " + QString::number(_border->x()) + " " + QString::number(_border->y()) + " " + QString::number(_border->rect().height()) + " " + QString::number(_border->rect().width());
     qDebug() << "Cars are : " + QString::number(car1->x()) + " " + QString::number(car1->y()) + " " + QString::number(car1->rect().height()) + " " + QString::number(car1->rect().width());
 
     // add elements to the scene
-    this->addItem(_border);
-    //this->addItem(car1);  // is alread added as a child of added parent _border
+    this->addItem(_border); // cars are also already added as a child of added parent _border
 
     // by moving items inside of a scene we will have a real position
     _border->setPos(BORDER_X, BORDER_Y);
     car1->setPos(BORDER_W / 2 - car1->rect().width() / 2, BORDER_H - car1->rect().height() - 10);
+    //car1->setPos(getLeftLaneX( BORDER_W, car1->rect().width()), BORDER_H - car1->rect().height() - 10);
+    //car2->setPos(getRightLaneX(BORDER_W, car2->rect().width()), BORDER_H - car2->rect().height() - 10);
 
     // to see a car statistics when a car is clicked
     foreach (Car *car, _garage)
@@ -535,7 +553,7 @@ void Supervisor::sceneChanged(const QList<QRectF> &)
 {
     //qDebug() << "sceneChanged: Border is: " + QString::number(_border->x()) + " " + QString::number(_border->y()) + " " + QString::number(_border->rect().height()) + " " + QString::number(_border->rect().width());
 
-    // update statistics only fot selected car (_selectedCar)
+    // update statistics only for selected car (_selectedCar)
     updateCarStatistic();
 
     foreach (Car *car, _garage)

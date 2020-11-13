@@ -9,6 +9,15 @@ TcpSocket::TcpSocket(Ui::MainWindow *ui) : _ui(ui)
     _tcpSocket = new QTcpSocket();
 }
 
+TcpSocket::~TcpSocket()
+{
+    if (_tcpSocket)
+    {
+        delete _tcpSocket;
+        _tcpSocket = nullptr;
+    }
+}
+
 void TcpSocket::setSocket(QTcpSocket *socket)
 {
     _tcpSocket = socket;
@@ -53,8 +62,9 @@ void TcpSocket::slotConnected()
 
 void TcpSocket::slotDisconnected()
 {
-    qDebug() << "Disconnected...";
-    _ui->textBrowser_log->append("Disconnected...\n");
+    qDebug() << "Client has disconnected...";
+
+    _ui->textBrowser_log->append("Client has disconnected...\n");
 
     // TODO: maybe put it in separated function
     // remove client 1 from combo box

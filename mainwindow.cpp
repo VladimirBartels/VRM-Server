@@ -20,6 +20,12 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+	
+	if (_supervisor)
+    {
+        delete _supervisor;
+        _supervisor = nullptr;
+    }
 }
 
 void MainWindow::on_radioButton_vrmControl_clicked()

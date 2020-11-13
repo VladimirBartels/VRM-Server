@@ -12,6 +12,7 @@ class Vrmserver : public QObject
 public:
     //explicit Vrmserver(QObject *parent = nullptr);
     Vrmserver(Ui::MainWindow *ui);
+    ~Vrmserver();
 
     void startTcpServer();
     void stopTcpServer();

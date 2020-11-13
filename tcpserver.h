@@ -32,6 +32,7 @@ class TcpServer : public QObject
     Q_OBJECT
 public:
     TcpServer(Ui::MainWindow *ui);
+    ~TcpServer();
 
     void doConnect();
     void doDisconnect();

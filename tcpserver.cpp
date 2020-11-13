@@ -11,6 +11,15 @@ TcpServer::TcpServer(Ui::MainWindow *ui) : _ui(ui)
     connect(_tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
 }
 
+TcpServer::~TcpServer()
+{
+    if (_tcpServer)
+    {
+        delete _tcpServer;
+        _tcpServer = nullptr;
+    }
+}
+
 void TcpServer::doConnect()
 {
     if (!_tcpServer->listen(QHostAddress(SERVERADDRESS), 80))
@@ -50,6 +59,7 @@ bool TcpServer::isListening()
 void TcpServer::doSend(uint clientId, QString data)
 {
     _ui->textBrowser_log->append("Server sent " + data);
+
     if (_socketMap.contains(clientId))
     {
         _socketMap[clientId]->doSend(data.toUtf8());
@@ -64,6 +74,7 @@ void TcpServer::sendMoveForward(uint clientId)
 {
     QString command = createCommand(clientId, eMoveForward);
     _ui->textBrowser_log->append("Server sent 'move forward' command " + command);
+
     if (_socketMap.contains(clientId))
     {
         _socketMap[clientId]->doSend(command);
@@ -78,6 +89,7 @@ void TcpServer::sendMoveBackward(uint clientId)
 {
     QString command = createCommand(clientId, eMoveBackward);
     _ui->textBrowser_log->append("Server sent 'move backward' command " + command);
+
     if (_socketMap.contains(clientId))
     {
         _socketMap[clientId]->doSend(command);
@@ -92,6 +104,7 @@ void TcpServer::sendMoveLeft(uint clientId)
 {
     QString command = createCommand(clientId, eMoveLeft);
     _ui->textBrowser_log->append("Server sent 'move left' command " + command);
+
     if (_socketMap.contains(clientId))
     {
         _socketMap[clientId]->doSend(command);
@@ -106,6 +119,7 @@ void TcpServer::sendMoveRight(uint clientId)
 {   
     QString command = createCommand(clientId, eMoveRight);
     _ui->textBrowser_log->append("Server sent 'move right' command " + command);
+
     if (_socketMap.contains(clientId))
     {
         _socketMap[clientId]->doSend(command);
@@ -120,6 +134,7 @@ void TcpServer::sendTurnLeft(uint clientId)
 {
     QString command = createCommand(clientId, eTurnLeft);
     _ui->textBrowser_log->append("Server sent 'turn left' command " + command);
+
     if (_socketMap.contains(clientId))
     {
         _socketMap[clientId]->doSend(command);
@@ -134,6 +149,7 @@ void TcpServer::sendTurnRight(uint clientId)
 {
     QString command = createCommand(clientId, eTurnRight);
     _ui->textBrowser_log->append("Server sent 'turn left' command " + command);
+
     if (_socketMap.contains(clientId))
     {
         _socketMap[clientId]->doSend(command);
@@ -148,6 +164,7 @@ void TcpServer::sendStop(uint clientId)
 {
     QString command = createCommand(clientId, eStop);
     _ui->textBrowser_log->append("Server sent 'stop' command " + command);
+
     if (_socketMap.contains(clientId))
     {
         _socketMap[clientId]->doSend(command);
@@ -162,6 +179,7 @@ void TcpServer::sendChangeSpeed(uint clientId, uint speed)
 {
     QString command = createCommand(clientId, eChangeSpeed + speed);
     _ui->textBrowser_log->append("Server sent 'change speed' command " + command);
+
     if (_socketMap.contains(clientId))
     {
         _socketMap[clientId]->doSend(command);
@@ -189,10 +207,11 @@ void TcpServer::newConnection()
 
     // TODO: maybe change map key from int to address string and put in a function
     // TODO: change address to 101
+    // TDDO: refactor code
     if (socket->getAddress() == CLIENTADDR_1)
     {
         // if a client is already in the map and the same client is trying to connect again,
-        // remove old cllient from the map and add a new one
+        // remove old client from the map and add a new one
         if (_socketMap.contains(1))
         {
                 TcpSocket *oldSocket = _socketMap.take(1);
@@ -207,7 +226,7 @@ void TcpServer::newConnection()
     if (socket->getAddress() == CLIENTADDR_2)
     {
         // if a client is already in the map and the same client is trying to connect again,
-        // remove old cllient from the map and add a new one
+        // remove old client from the map and add a new one
         if (_socketMap.contains(2))
         {
                 TcpSocket *oldSocket = _socketMap.take(2);

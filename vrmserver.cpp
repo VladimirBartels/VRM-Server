@@ -10,6 +10,15 @@ Vrmserver::Vrmserver(Ui::MainWindow *ui) : _ui(ui)
     _server = new TcpServer(ui);
 }
 
+Vrmserver::~Vrmserver()
+{
+    if (_server)
+    {
+        delete _server;
+        _server = nullptr;
+    }
+}
+
 void Vrmserver::startTcpServer()
 {
     _server->doConnect();
